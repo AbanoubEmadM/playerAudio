@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    PlayerGUI.h
-    Created: 14 Oct 2025 2:07:00am
-    Author:  emadb
-
-  ==============================================================================
-*/
-
 #pragma once
 #include <JuceHeader.h>
 #include "PlayerAudio.h"
@@ -38,15 +28,21 @@ private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     // GUI components
-    juce::TextButton loadButton{ "Load" };
-    juce::TextButton playButton{ "Play" };
-    juce::TextButton stopButton{ "Stop" };
-	juce::TextButton returnButton{ "Return" };
-    juce::TextButton loopButton{ "Loop" };
-    juce::TextButton endButton{ "End" };
+    juce::ImageButton loadButton;
+    juce::ImageButton playButton;
+    bool isPlaying = false;
+
+    juce::Image playImage;
+    juce::Image pauseImage;
+
+	juce::ImageButton returnButton;
+    juce::ImageButton loopButton;
+    juce::ImageButton endButton;
+	juce::ImageButton muteButton;
 	juce::Label metadataLabel{ "metadata", "No File Loaded " };
     juce::Slider volumeSlider;
 	juce::Slider positionSlider;
+    juce::Slider speedSlider;
     // File chooser
     std::unique_ptr<juce::FileChooser> fileChooser;
 
@@ -54,7 +50,9 @@ private:
     void buttonClicked(juce::Button* button);
     void sliderValueChanged(juce::Slider* slider);
     void addSongToPlaylist(const juce::File& file);
-
+    void setImageButton(juce::ImageButton& button,
+        const void* imageData, int imageSize,
+        const juce::String& tooltip);
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };

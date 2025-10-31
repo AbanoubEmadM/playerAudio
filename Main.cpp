@@ -1,3 +1,28 @@
+/*
+FCAI – OOP Programming – 2025/2026 - Assignment 2
+Program Name: Babyeditor
+Last Modification Date: 24/10/2025
+worked on by :
+
+Abanoub Emad Makram           ID: 20240002 worked on sepration , play/stop/return/end buttons,display metadata
+Amal Ahmad Mohamed            ID: 20240090 worked on sepration , mute button
+Rayan Abdelrahman Ibrahim     ID: 20210727 worked on sepration , looping button
+
+coures instructor :
+Dr Mohamed El-Ramely
+thank you for using our program :)
+--------------------------------------------------------------
+this is a simple first version of audio player
+made using JUCE library
+it can load and play audio files (wav,mp3)
+it can also display metadata of the audio file
+and supports mute and looping functionality
+it's on progress for more features
+and a better GUI
+stay tuned !
+--------------------------------------------------------------
+*/
+
 #include <JuceHeader.h>
 #include "MainComponent.h"
 
@@ -26,7 +51,7 @@ private:
     public:
         MainWindow(juce::String name)
             : DocumentWindow(name,
-                juce::Colours::lightgrey,
+                juce::Colours::darkviolet,
                 DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar(true);

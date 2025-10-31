@@ -18,6 +18,10 @@ public:
 	void pause();
 	void setGain(float newGain);
 	void setPosition(double newPosition);
+    void setVolume(float newVolume);
+    float getVolume() const;
+    void setMuted(bool shouldMute);
+    bool isMuted() const;
 	void looptrack(bool looping_state);
 	double getPosition() const;
 	double getLengthInSeconds() const;
@@ -36,6 +40,8 @@ private:
 	juce::String title{ "Unknown Title" };
 	juce::String album{ "Unknown Album" };
 
+    float lastVolume = 1.0f;
+	bool muted = false;
 	bool loop{ false };
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 };

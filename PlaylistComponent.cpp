@@ -37,6 +37,12 @@ int PlaylistComponent::getNumRows()
 {
     return (int)tracks.size();
 }
+void PlaylistComponent::paint(juce::Graphics& g)
+{
+    g.fillAll(juce::Colours::red); // TEMP: bright red to verify visibility
+
+}
+
 
 void PlaylistComponent::paintRowBackground(juce::Graphics& g, int row, int width, int height, bool selected)
 {
@@ -61,5 +67,8 @@ void PlaylistComponent::paintCell(juce::Graphics& g, int row, int columnId, int 
 void PlaylistComponent::cellDoubleClicked(int row, int, const juce::MouseEvent&)
 {
     if (onTrackDoubleClicked && row >= 0 && row < (int)tracks.size())
+    {
         onTrackDoubleClicked(tracks[row]);
+    
+    }
 }

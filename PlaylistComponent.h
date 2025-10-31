@@ -9,7 +9,7 @@ struct Track
     juce::String artist;
 };
 
-// PlaylistComponent — shows a table of tracks and handles clicks
+// PlaylistComponent ï¿½ shows a table of tracks and handles clicks
 class PlaylistComponent : public juce::Component,
     public juce::TableListBoxModel
 {
@@ -25,11 +25,12 @@ public:
     // Get track by row index
     Track getTrack(int row) const;
 
-    // Callbacks (you’ll use this to connect to PlayerAudio)
+    // Callbacks (youï¿½ll use this to connect to PlayerAudio)
     std::function<void(const Track&)> onTrackDoubleClicked;
 
     // TableListBoxModel overrides
     int getNumRows() override;
+    void paint(juce::Graphics& g);
     void paintRowBackground(juce::Graphics& g, int row, int width, int height, bool rowIsSelected) override;
     void paintCell(juce::Graphics& g, int row, int columnId, int width, int height, bool rowIsSelected) override;
     void cellDoubleClicked(int row, int columnId, const juce::MouseEvent&) override;

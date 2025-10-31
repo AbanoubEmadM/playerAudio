@@ -3,7 +3,7 @@
 MainComponent::MainComponent()
 {
     addAndMakeVisible(player1);
-    setSize(1280, 720);
+    setSize(800, 600);
     setAudioChannels(0, 2);
 }
 
@@ -31,6 +31,6 @@ void MainComponent::releaseResources()
 
 void MainComponent::resized()
 {
-    player1.setBounds(20, 20, getWidth() - 40, getHeight() - 40);
+    player1.setBounds(50, 50, getWidth() - 100, getHeight() - 100);
 
 }

@@ -66,10 +66,42 @@ void PlayerAudio::pause()
 void PlayerAudio::setGain(float newGain)
 {
     transportSource.setGain(newGain);
+	if (newGain==0.0f)
+		muted = true;
+    else if (newGain!=0.0f)
+		muted = false;
 }
 void PlayerAudio::setPosition(double newPosition)
 {
     transportSource.setPosition(newPosition);
+}
+void PlayerAudio::setVolume(float newVolume)
+{
+    lastVolume = newVolume;
+    if (!muted)
+        transportSource.setGain(newVolume);
+}
+float PlayerAudio::getVolume() const
+{
+    return lastVolume;
+}
+void PlayerAudio::setMuted(bool shouldMute)
+{
+    if (shouldMute && !muted)
+	{
+		lastVolume = transportSource.getGain();
+		muted = true;
+        transportSource.setGain(0.0f);
+	}
+    else if (!shouldMute && muted)
+	{
+		muted = false;
+        transportSource.setGain(lastVolume);
+	}
+}
+bool PlayerAudio::isMuted() const
+{
+    return muted;
 }
 void PlayerAudio::looptrack(bool looping_state)
 {
