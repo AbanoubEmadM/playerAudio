@@ -33,6 +33,15 @@ Track PlaylistComponent::getTrack(int row) const
     return {};
 }
 
+int PlaylistComponent::getIndexForTrack(const Track& t) const
+{
+    for (int i = 0; i < tracks.size(); ++i)
+        if (tracks[i].file == t.file)
+            return i;
+    return -1;
+}
+
+
 int PlaylistComponent::getNumRows()
 {
     return (int)tracks.size();

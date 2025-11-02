@@ -35,6 +35,8 @@ PlayerGUI::PlayerGUI()
                     pauseImage, 0.8f, juce::Colours::transparentBlack,
                     pauseImage, 0.5f, juce::Colours::transparentBlack);
                 isPlaying = true;
+                currentTrackIndex = playlist.getIndexForTrack(track);
+
             }
         };
 
@@ -145,9 +147,74 @@ void PlayerGUI::addSongToPlaylist(const juce::File& file)
                 juce::dontSendNotification
             );
         }
+        currentTrackIndex = playlist.getNumRows() - 1; // index of the newly added file
 
     }
 }
+
+void PlayerGUI::playNextTrack()
+{
+    int totalTracks = playlist.getNumRows();
+    if (totalTracks == 0)
+        return;
+
+    // Move to next index
+    currentTrackIndex++;
+
+    // Wrap around if we reach end
+    if (currentTrackIndex >= totalTracks)
+        currentTrackIndex = 0;
+
+    auto track = playlist.getTrack(currentTrackIndex);
+
+    if (playerAudio.loadFile(track.file))
+    {
+        playerAudio.play();
+
+        metadataLabel.setText(
+            "Title: " + track.title + " | Artist: " + track.artist,
+            juce::dontSendNotification
+        );
+
+        // Update play button icon
+        playButton.setImages(true, true, true,
+            pauseImage, 1.0f, juce::Colours::transparentBlack,
+            pauseImage, 0.8f, juce::Colours::transparentBlack,
+            pauseImage, 0.5f, juce::Colours::transparentBlack);
+        isPlaying = true;
+    }
+}
+
+
+void PlayerGUI::playPreviousTrack()
+{
+    if (playlist.getNumRows() == 0)
+        return;
+
+    // move to previous track
+    currentTrackIndex--;
+    if (currentTrackIndex < 0)
+        currentTrackIndex = playlist.getNumRows() - 1; // go to last track
+
+    auto previousTrack = playlist.getTrack(currentTrackIndex);
+
+    if (playerAudio.loadFile(previousTrack.file))
+    {
+        playerAudio.play();
+        metadataLabel.setText(
+            "Title: " + previousTrack.title + " | Artist: " + previousTrack.artist,
+            juce::dontSendNotification
+        );
+
+        // Update play button icon
+        playButton.setImages(true, true, true,
+            pauseImage, 1.0f, juce::Colours::transparentBlack,
+            pauseImage, 0.8f, juce::Colours::transparentBlack,
+            pauseImage, 0.5f, juce::Colours::transparentBlack);
+        isPlaying = true;
+    }
+}
+
 
 void PlayerGUI::buttonClicked(juce::Button* button)
 {
@@ -187,6 +254,7 @@ void PlayerGUI::buttonClicked(juce::Button* button)
                 {
                     playerAudio.loadFile(file);
                     addSongToPlaylist(file);
+                    currentTrackIndex = playlist.getNumRows() - 1; // index of the newly added file
 
                     playButton.setImages(true, true, true,
                         pauseImage, 1.0f, juce::Colours::transparentBlack,
@@ -203,9 +271,26 @@ void PlayerGUI::buttonClicked(juce::Button* button)
 
     else if (button == &muteButton)
         playerAudio.setMuted(!playerAudio.isMuted());
-    else if (button == &endButton) {
-        //playlist.getTrack()
+    
+    else if (button == &returnButton)
+    {
+        double position = playerAudio.getPosition();  // current playback time in seconds
+
+        if (position > 1.0)   // if more than 1 sec into the track, restart it
+        {
+            playerAudio.setPosition(0.0);
+        }
+        else                  // if already at the start, play previous song
+        {
+            playPreviousTrack();
+        }
     }
+    else if (button == &endButton)
+    {
+        playNextTrack();
+    }
+
+
 }
 
 void PlayerGUI::sliderValueChanged(juce::Slider* slider)

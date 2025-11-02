@@ -31,6 +31,7 @@ private:
     juce::ImageButton loadButton;
     juce::ImageButton playButton;
     bool isPlaying = false;
+    int currentTrackIndex = -1;   // -1 means no track loaded yet
 
     juce::Image playImage;
     juce::Image pauseImage;
@@ -50,6 +51,8 @@ private:
     void buttonClicked(juce::Button* button);
     void sliderValueChanged(juce::Slider* slider);
     void addSongToPlaylist(const juce::File& file);
+    void playPreviousTrack();
+    void playNextTrack();
     void setImageButton(juce::ImageButton& button,
         const void* imageData, int imageSize,
         const juce::String& tooltip);

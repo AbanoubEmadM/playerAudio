@@ -30,6 +30,7 @@ public:
 
     // TableListBoxModel overrides
     int getNumRows() override;
+    int getIndexForTrack(const Track& t) const;
     void paint(juce::Graphics& g);
     void paintRowBackground(juce::Graphics& g, int row, int width, int height, bool rowIsSelected) override;
     void paintCell(juce::Graphics& g, int row, int columnId, int width, int height, bool rowIsSelected) override;
